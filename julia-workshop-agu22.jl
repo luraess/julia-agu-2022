@@ -269,21 +269,15 @@ md"""
 #src #########################################################################
 #nb # %% A slide [markdown] {"slideshow": {"slide_type": "slide"}}
 md"""
-## Enough propaganda
-Let's check out [ParallelStencil.jl](https://github.com/omlins/ParallelStencil.jl)
-"""
+## Enough teasing
+_check out [ParallelStencil.jl](https://github.com/omlins/ParallelStencil.jl)_
 
-#nb # %% A slide [markdown] {"slideshow": {"slide_type": "fragment"}}
-md"""
 We'll solve the heat diffusion equation
 
 $$ c \frac{∂T}{∂t} = ∇⋅λ ∇T $$
 
 using explicit 2D finite-differences on a Cartesian staggered grid
-"""
 
-#nb # %% A slide [markdown] {"slideshow": {"slide_type": "fragment"}}
-md"""
 👉 This notebook is available on GitHub: [https://github.com/luraess/julia-agu-2022](https://github.com/luraess/julia-agu-2022)
 """
 
@@ -500,6 +494,8 @@ end
 md"""
 We can sample again our performance on the GPU:
 """
+CUDA.unsafe_free!(qTx)
+CUDA.unsafe_free!(qTy)
 T2 = copy(T)
 t_it = @belapsed begin @parallel update_temperature_ps2!($T2, $T, $Ci, $λ, $dt, $dx, $dy); end
 T_eff_ps2 = (2*1+1)*1/1e9*nx*ny*sizeof(Float64)/t_it
@@ -523,6 +519,7 @@ xPU  = ("CPU-AP", "GPU-AP", "GPU-PS", "GPU-PS2")
 Teff = [T_eff_cpu_bcast, T_eff_gpu_bcast, T_eff_ps, T_eff_ps2]
 plot(Teff,ylabel="T_eff [GiB/s]",xlabel="implementation",xticks=(1:length(xPU),xPU),xaxis=([0.7, 4.3]),linewidth=0,markershape=:square,markersize=8,legend=false,fontfamily="Courier",framestyle=:box)
 plot!([0.7,4.3],[1355,1355],linewidth=3)
+annotate!(1.4,1300,"memory copy")
 
 md"""
 - Julia and ParallelStencil permit to solve the two-language problem
