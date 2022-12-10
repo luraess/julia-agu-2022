@@ -1,7 +1,7 @@
 # Julia AGU 2022 workshop
 Using Julia and GPU programming for numerical modelling
 
-#### AGU 2022 workshop - SCIWS26: Porting Machine Learning and Modeling from a Laptop to a Supercomputer
+📚 @AGU 2022 workshop - **SCIWS26: Porting Machine Learning and Modeling from a Laptop to a Supercomputer**
 
 ## Automatic notebook generation
 
