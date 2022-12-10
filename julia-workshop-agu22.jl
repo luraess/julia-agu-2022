@@ -500,7 +500,7 @@ T2 = copy(T)
 t_it = @belapsed begin @parallel update_temperature_ps2!($T2, $T, $Ci, $λ, $dt, $dx, $dy); end
 T_eff_ps2 = (2*1+1)*1/1e9*nx*ny*sizeof(Float64)/t_it
 println("T_eff = $(T_eff_ps2) GiB/s using ParallelStencil on GPU without convenience arrays")
-println("So, we made it. Our 2D diffusion kernel runs on the GPU at $(T_eff_psind/1355) % of memory copy!")
+println("So, we made it. Our 2D diffusion kernel runs on the GPU at $(T_eff_ps2/1355) % of memory copy!")
 
 md"""
 So that's cool. We are getting close to hardware limit 🚀
