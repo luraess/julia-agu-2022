@@ -81,27 +81,15 @@ Computational costs increase
 - with dimensions (3D tensors...)
 - upon refining spatial and temporal resolution
 
-"""
-
-#nb # %% A slide [markdown] {"slideshow": {"slide_type": "fragment"}}
-md"""
 ![Stokes2D_vep](./figures/Stokes2D_vep.gif)
+
 """
 
 #src #########################################################################
 #nb # %% A slide [markdown] {"slideshow": {"slide_type": "slide"}}
 md"""
 Use **parallel computing** _(to address this)_
-- The "memory wall" in ~ 2004
-- Single-core to multi-core devices
 
-![mem_wall](./figures/mem_wall.png)
-
-"""
-
-#src #########################################################################
-#nb # %% A slide [markdown] {"slideshow": {"slide_type": "slide"}}
-md"""
 GPUs are massively parallel devices
 - SIMD machine (programmed using threads - SPMD) ([more](https://safari.ethz.ch/architecture/fall2020/lib/exe/fetch.php?media=onur-comparch-fall2020-lecture24-simdandgpu-afterlecture.pdf))
 - Further increases the Flop vs Bytes gap
@@ -195,8 +183,8 @@ Need for a memory throughput-based performance metric: $T_\mathrm{eff}$ [GiB/s]
 #nb # %% A slide [markdown] {"slideshow": {"slide_type": "slide"}}
 md"""
 The effective memory access $A_\mathrm{eff}$ [GiB], is the sum of:
-- twice the memory footprint of the unknown fields, $D_\mathrm{u}$, (fields that depend on their own history and that need to be updated every iteration)
-- known fields, $D_\mathrm{k}$, that do not change every iteration. 
+- twice the memory footprint of the unknown fields, $D_\mathrm{u}$
+- known fields, $D_\mathrm{k}$. 
 """
 
 #nb # %% A slide [markdown] {"slideshow": {"slide_type": "fragment"}}
@@ -469,10 +457,10 @@ USE_GPU=true
 using ParallelStencil
 using ParallelStencil.FiniteDifferences2D
 @static if USE_GPU
-    @init_parallel_stencil(CUDA, Float64, 2)
-    CUDA.device!(7) # select specific GPU
+    @init_parallel_stencil(CUDA,Float64,2)
+    CUDA.device!(2) # select specific GPU
 else
-    @init_parallel_stencil(Threads, Float64, 2)
+    @init_parallel_stencil(Threads,Float64,2)
 end
 nx = ny = 512*64
 T   = @rand(nx  ,ny  )
